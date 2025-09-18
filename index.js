@@ -1,8 +1,18 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const nodemailer = require("nodemailer");
 
 const app = express();
+
+// CORS configuration
+app.use(cors({
+    origin: process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : '*', // Allow specific origins or all
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    credentials: true
+}));
+
 app.use(express.json());
 
 // Create transporter
@@ -24,6 +34,16 @@ console.log("SMTP_PORT", process.env.SMTP_PORT);
 console.log("SMTP_USER", process.env.SMTP_USER);
 console.log("SMTP_PASS", process.env.SMTP_PASS);
 // console.log("SMTP_HOST", process.env.SMTP_HOST);
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+    res.json({ status: "OK", message: "Mail Sender API is running" });
+});
+
+// Handle CORS preflight requests
+app.options("/contact", (req, res) => {
+    res.status(200).end();
+});
 
 // API route to send mail
 // API route to handle contact form

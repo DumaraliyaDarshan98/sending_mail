@@ -5,14 +5,20 @@ PORT=
 
 # SMTP
 SMTP_HOST=
+
 SMTP_PORT=
+
 SMTP_USER=
+
 SMTP_PASS=
+
 CC_EMAILS=
 
 # API Description
 Endpoint : http://localhost:5000/contact
+
 Payload :
+
 {
   "firstName": "John",
   "lastName": "Doe",
